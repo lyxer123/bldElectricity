@@ -1,10 +1,63 @@
 <!--  -->
 <template>
-<div id="app">
-    <el-table :data="tableData" style="width: 100%">
-        <el-table-column prop="nodeName" label="node name" />
-        <el-table-column prop="nodeType" label="node type" />
-        <el-table-column prop="nodeLatency" label="node latency" />
+<div>
+
+    <div style="display: flex;    margin-bottom: 20px;">
+        <div style="margin-left:10px">
+            <div class="floatLeft"><img style="width:90px" src="@/assets/404_images/970c5ab7a35d27ff9f6a1d77896ce40.png"></div>
+            <div class="floatLeft">
+                <div class="fontSize">区块高度</div>
+                <div class="fontSizetwo">#{{tableData[0].lastBlock.toLocaleString()}}</div>
+            </div>
+        </div>
+        <div style="margin-left:40px">
+            <div class="floatLeft"><img style="width:90px" src="@/assets/404_images/067f318d1f881472195c03ed8756c66.png"></div>
+            <div class="floatLeft">
+                <div class="fontSize">最近出块时间</div>
+                <div class="fontSizetwo">{{tableData[0].lastBlockTime}}</div>
+            </div>
+
+        </div>
+        <div style="margin-left:40px">
+            <div class="floatLeft"><img style="width:90px" src="@/assets/404_images/cfb581578f9652d5b748ecdf1c98921.png"></div>
+            <div class="floatLeft">
+                <div class="fontSize">平均出块时间</div>
+                <div class="fontSizetwo">{{tableData[0].avgBlocktime}}</div>
+            </div>
+
+        </div>
+        <div style="margin-left:40px">
+            <div class="floatLeft"><img style="width:90px" src="@/assets/404_images/9e1a981384a6a4d66f75d5611da1c8a.png"></div>
+            <div class="floatLeft">
+                <div class="fontSize">
+                    平均哈希值</div>
+                <div class="fontSizetwo">{{tableData[0].avgHashrate}}</div>
+            </div>
+
+        </div>
+    </div>
+
+    <div style="display: flex;    margin-bottom: 20px;">
+        <div id="main" style="float:left;width: 25%;height:250px;"></div>
+        <div id="main1" style="float:left;width: 25%;height:250px;"></div>
+        <div id="main2" style="float:left;width: 25%;height:250px;"></div>
+
+        <div class="mybox">
+            <div style="font-size: 20px;margin-bottom: 80px;font-weight: 550;">LAST BLOCKS MINERS</div>
+            <div style="font-size: 13px">{{tableData[0].lastBlockMiners1}}</div>
+            <div><img src="@/assets/404_images/0fd64ad27c6d27bd549112d4a6ec0c8.png" /></div>
+            <div style="font-size: 13px">{{tableData[0].lastBlockMiners2}}</div>
+            <div><img src="@/assets/404_images/0fd64ad27c6d27bd549112d4a6ec0c8.png" /></div>
+        </div>
+
+    </div>
+    <div style="display: flex;    margin-bottom: 20px;">
+        <div id="main3" style="float:left;width: 25%;height:250px;"></div>
+    </div>
+    <el-table :data="tableData" style="width: 100% ;   margin-bottom: 20px;">
+        <el-table-column prop="nodeName" label="节点名称" />
+        <el-table-column prop="nodeType" label="节点类型" />
+        <el-table-column prop="nodeLatency" label="节点延迟时间" />
         <el-table-column prop="nodeMining" label="node mining" />
         <el-table-column prop="nodePeers" label="node peers" />
         <el-table-column prop="lastBlock" label="last block" />
@@ -15,31 +68,13 @@
         <el-table-column prop="propagationTime" label="propagation time" />
 
     </el-table>
-    <div>
-        <h2 style="font-size: small">LAST BLOCKS MINERS</h2>
-        <h3 style="font-size: small">{{tableData[0].lastBlockMiners1}}</h3>
-        <h3 style="font-size: small">{{tableData[0].lastBlockMiners2}}</h3>
-
-    </div>
-    <el-row :gutter="20">
-        <el-col :span="6">
-            <div class="grid-content bg-purple">#{{tableData[0].lastBlock.toLocaleString()}}</div>
-        </el-col>
-        <el-col :span="6">
-            <div class="grid-content bg-purple">{{tableData[0].lastBlockTime}}</div>
-        </el-col>
-        <el-col :span="6">
-            <div class="grid-content bg-purple">{{tableData[0].avgBlocktime}}</div>
-        </el-col>
-        <el-col :span="6">
-            <div class="grid-content bg-purple">{{tableData[0].avgHashrate}}</div>
-        </el-col>
-    </el-row>
-
 </div>
 </template>
 
 <script>
+import {
+    option
+} from 'runjs';
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 //例如：import 《组件名称》 from '《组件路径》';
 let websocket;
@@ -67,6 +102,138 @@ export default {
                 avgBlocktime: '',
                 avgHashrate: '',
             }],
+            option: {
+                title: {
+                    text: 'BLOCK TIME'
+                },
+                color: ['#3398DB'],
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                        type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: [{
+                    type: 'category',
+                    data: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+                    axisTick: {
+                        alignWithLabel: true
+                    }
+                }],
+                yAxis: [{
+                    type: 'value'
+                }],
+                series: [{
+                    name: '',
+                    type: 'bar',
+                    barWidth: '60%',
+                    data: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+                }]
+            },
+            option1: {
+                title: {
+                    text: 'TRANSACTIONS'
+                },
+                color: ['#3398DB'],
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                        type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: [{
+                    type: 'category',
+                    data: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+                    axisTick: {
+                        alignWithLabel: true
+                    }
+                }],
+                yAxis: [{
+                    type: 'value'
+                }],
+                series: [{
+                    name: '',
+                    type: 'bar',
+                    barWidth: '60%',
+                    data: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+                }]
+            },
+            option2: {
+                title: {
+                    text: 'GAS SPENDING'
+                },
+                color: ['#F74B4B'],
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                        type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: [{
+                    type: 'category',
+                    data: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+                    axisTick: {
+                        alignWithLabel: true
+                    }
+                }],
+                yAxis: [{
+                    type: 'value'
+                }],
+                series: [{
+                    name: '',
+                    type: 'bar',
+                    barWidth: '60%',
+                    data: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+                }]
+            },
+            option3: {
+                title: {
+                    text: 'BLOCK PROPAGATION'
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: [0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.25, 3.5, 3.75, 4, 4.25, 4.5, 4.75, 5, 5.25, 5.5, 5.75, 6, 6.25, 6.5, 6.75, 7, 7.25, 7.5, 7.75, 8, 8.25, 8.5, 8.75, 9, 9.25, 9.5, 9.75]
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [{
+                        name: '',
+                        type: 'line',
+                        data: [0.9999999999999453, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                    },
+
+                ]
+            }
 
         };
     },
@@ -114,9 +281,36 @@ export default {
                             this.tableData[0].lastBlockMiners2 = domData.data.miners[1].miner;
                             this.tableData[0].avgBlocktime = domData.data.avgBlocktime.toFixed(2) + "s";
                             this.tableData[0].avgHashrate = domData.data.avgHashrate.toFixed(1) + "H/s";
+                            this.option.xAxis[0].data = domData.data.blocktime;
+                            this.option.series[0].data = domData.data.blocktime;
 
+                            this.option1.xAxis[0].data = domData.data.transactions;
+                            this.option1.series[0].data = domData.data.transactions;
+
+                            this.option2.xAxis[0].data = domData.data.gasSpending;
+                            this.option2.series[0].data = domData.data.gasSpending;
+
+                            let histogramList = domData.data.propagation.histogram;
+                            let xList = histogramList.map(item => {
+                                return item.x / 1000;
+                            })
+                            let yList = histogramList.map(item => {
+                                return item.y;
+                            })
+
+                            console.log(xList);
+                            console.log(yList);
+                            this.option3.xAxis.data = xList;
+                            this.option3.series.data = yList;
                         })
 
+                    } else if (domData.action === "client-ping") {
+                        websocket.send(JSON.stringify({
+                            "emit": ["client-pong", {
+                                "serverTime": domData.data.serverTime,
+                                "clientTime": new Date().getTime()
+                            }]
+                        }));
                     }
                 }
             }
@@ -129,6 +323,19 @@ export default {
     },
     //生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = this.$echarts.init(document.getElementById('main'));
+        var myChart1 = this.$echarts.init(document.getElementById('main1'));
+        var myChart2 = this.$echarts.init(document.getElementById('main2'));
+        var myChart3 = this.$echarts.init(document.getElementById('main3'));
+        // this.$myChart.showLoading();
+        let that = this;
+        var interval3 = setInterval(function () {
+            myChart.setOption(that.option);
+            myChart1.setOption(that.option1);
+            myChart2.setOption(that.option2);
+            myChart3.setOption(that.option3);
+        }, 1000);
 
     },
     beforeCreate() {}, //生命周期 - 创建之前
@@ -152,10 +359,6 @@ export default {
 <style>
 .el-row {
     margin-bottom: 20px;
-
-    &:last-child {
-        margin-bottom: 0;
-    }
 }
 
 .el-col {
@@ -184,5 +387,29 @@ export default {
 .row-bg {
     padding: 10px 0;
     background-color: #f9fafc;
+}
+
+.mybox {
+    margin-left: 20px;
+}
+
+.floatLeft {
+    float: left;
+}
+
+.fontSize {
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+.fontSizetwo {
+    font-size: 33px;
+    margin-top: 10px;
+}
+
+.loading {
+    position: fixed;
+    width: 100%;
+    height: 100%;
 }
 </style>
