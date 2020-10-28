@@ -3,14 +3,14 @@
 <div>
 
     <div style="display: flex;    margin-bottom: 20px;">
-        <div style="margin-left:10px">
+        <div style="margin-left:10px;width:23%;">
             <div class="floatLeft"><img style="width:90px" src="@/assets/404_images/970c5ab7a35d27ff9f6a1d77896ce40.png"></div>
             <div class="floatLeft">
                 <div class="fontSize">区块高度</div>
-                <div class="fontSizetwo">#{{tableData[0].lastBlock.toLocaleString()}}</div>
+                <div class="fontSizetwo">{{tableData[0].lastBlock.toLocaleString()}}</div>
             </div>
         </div>
-        <div style="margin-left:40px">
+        <div style="margin-left:40px;width:23%;">
             <div class="floatLeft"><img style="width:90px" src="@/assets/404_images/067f318d1f881472195c03ed8756c66.png"></div>
             <div class="floatLeft">
                 <div class="fontSize">最近出块时间</div>
@@ -18,7 +18,7 @@
             </div>
 
         </div>
-        <div style="margin-left:40px">
+        <div style="margin-left:40px;width:23%;">
             <div class="floatLeft"><img style="width:90px" src="@/assets/404_images/cfb581578f9652d5b748ecdf1c98921.png"></div>
             <div class="floatLeft">
                 <div class="fontSize">平均出块时间</div>
@@ -261,16 +261,16 @@ export default {
                 if (emit && emit[0] === "init") {
                     this.tableData[0].nodeName = emit[1].nodes[0].info.name;
                     this.tableData[0].nodeType = emit[1].nodes[0].info.node;
-                    this.tableData[0].nodeLatency = emit[1].nodes[0].stats.latency;
-                    this.tableData[0].nodeMining = emit[1].nodes[0].stats.mining == true ? 0 : 1;
+                    this.tableData[0].nodeLatency = emit[1].nodes[0].stats.latency + " ms";
+                    this.tableData[0].nodeMining = (emit[1].nodes[0].stats.mining == true ? 0 : 1) + " KH/s";
                     this.tableData[0].nodePeers = emit[1].nodes[0].stats.peers;
-                    this.tableData[0].lastBlock = emit[1].nodes[0].stats.block.number;
+                    this.tableData[0].lastBlock = "#" + (emit[1].nodes[0].stats.block.number.toLocaleString());
                     this.tableData[0].lastBlockTime = Math.round((new Date().getTime() / 1000 - emit[1].nodes[0].stats.block.timestamp)) + "s ago";
 
                 } else {
                     if (domData.action === "block") {
-                        this.tableData[0].lastBlock = domData.data.block.number;
-                        this.tableData[0].totalDifficulty = domData.data.block.totalDifficulty;
+                        this.tableData[0].lastBlock = "#" + domData.data.block.number.toLocaleString();
+                        this.tableData[0].totalDifficulty = parseInt(domData.data.block.totalDifficulty).toLocaleString();
                         this.tableData[0].blockTransactions = domData.data.block.transactions.length;
                         this.tableData[0].blockUncles = domData.data.block.uncles.length;
                         this.tableData[0].lastBlockTime = "0s ago";
@@ -297,9 +297,6 @@ export default {
                             let yList = histogramList.map(item => {
                                 return item.y;
                             })
-
-                            console.log(xList);
-                            console.log(yList);
                             this.option3.xAxis.data = xList;
                             this.option3.series.data = yList;
                         })
