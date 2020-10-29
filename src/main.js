@@ -6,7 +6,9 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/zh-CN' // lang i18n
 
+
 import '@/styles/index.scss' // global css
+import { Loading } from 'element-ui';
 
 import App from './App'
 import store from './store'
@@ -38,6 +40,8 @@ Vue.use(ElementUI, { locale })
 // Vue.use(ElementUI)
 
 Vue.config.productionTip = false
+
+
 
 new Vue({
   el: '#app',

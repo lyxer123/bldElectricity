@@ -4,7 +4,7 @@ const prefix = "block/";
 
 export function search_block(data) {
     return request({
-        url: prefix + 'searchBlock.json?limit=' + data.limit + '&search=' + data.search,
+        url: prefix + 'searchBlock.json?limit=' + data.pageSize + '&search=' + data.search + '&pageNum='+ data.pageNum,
         method: 'get'
     })
 }
