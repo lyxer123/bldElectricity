@@ -93,7 +93,7 @@
       </div>
     </el-drawer>
 
-    <!--hash具体信息展示11111111111111111111111122222222222222222222222222222221-->
+    <!--hash具体信息展示-->
     <el-drawer size="65%"
                title="信息展示"
                custom-class="drawer_class"
@@ -177,6 +177,8 @@ export default {
     },
     history_transfer (row) {
       this.chipId = row.chipId;
+      this.search2.pageNum = 1;
+      this.search2.pageSize = 10;
       search_block_hash(row.chipId, this.search2.pageNum, this.search2.pageSize).then(res => {
         if (res.success) {
           this.show_table_data = res.data
@@ -189,6 +191,21 @@ export default {
           });
         }
       })
+    },
+    search_block_hash2 () {
+      search_block_hash(this.chipId, this.search2.pageNum, this.search2.pageSize).then(res => {
+        if (res.success) {
+          this.show_table_data = res.data
+          this.search2.total = res.total;
+          this.block_transfer_drawer = true;
+        } else {
+          this.$message({
+            type: 'info',
+            message: res.message
+          });
+        }
+      })
+
     },
     show_block_info (hash) {
       this.block_info_drawer = true;
@@ -278,21 +295,16 @@ export default {
       this.search_block();
     },
     handleCurrentChange (val) {
-      alert("当前页变了");
       this.search.pageNum = val;
       this.search_block();
     },
     handleSizeChange2 (val) {
       this.search2.pageSize = val;
-      let j = new Object();
-      j.chipId = this.chipId;
-      this.history_transfer(j);
+      this.search_block_hash2();
     },
     handleCurrentChange2 (val) {
       this.search2.pageNum = val;
-      let j1 = new Object();
-      j1.chipId = this.chipId;
-      this.history_transfer(j1);
+      this.search_block_hash2();
     }
   },
   created () {
