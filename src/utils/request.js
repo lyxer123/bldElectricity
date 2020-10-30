@@ -6,7 +6,7 @@ import { getToken } from '@/utils/auth'
 // create an axios instance
 const service = axios.create({
   // baseURL: "http://125.64.98.21:8010/",
-  baseURL: "http://localhost:8010/",
+  baseURL: "http://125.64.98.21:8010/",
   // baseURL: "/",
   timeout: 0, // request timeout
   //保持sessionKey

@@ -233,18 +233,7 @@ export const constantRoutes = [
       }
     ]
   },
-  {
-    path: '/systementity',
-    component: Layout,
-    children: [
-      {
-        path: 'systementity',
-        name: '资源管理',
-        component: () => import('@/views/traceability/systementity'),
-        meta: {title: '资源管理', icon: 'traceability'}
-      }
-    ]
-  },
+ 
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }

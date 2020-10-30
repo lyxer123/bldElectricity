@@ -38,9 +38,9 @@
     </div>
 
     <div style="display: flex;    margin-bottom: 20px;">
-        <div id="main" style="float:left;width: 25%;height:250px;"></div>
-        <div id="main1" style="float:left;width: 25%;height:250px;"></div>
-        <div id="main2" style="float:left;width: 25%;height:250px;"></div>
+        <div id="main" style="float:left;width: 25%;height:300px;"></div>
+        <div id="main1" style="float:left;width: 25%;height:300px;"></div>
+        <div id="main2" style="float:left;width: 25%;height:300px;"></div>
 
         <div class="mybox">
             <div style="font-size: 20px;margin-bottom: 80px;font-weight: 550;">LAST BLOCKS MINERS</div>
@@ -52,7 +52,8 @@
 
     </div>
     <div style="display: flex;    margin-bottom: 20px;">
-        <div id="main3" style="float:left;width: 25%;height:250px;"></div>
+        <div id="main3" style="float:left;width: 20%;height:400px;"></div>
+        <systementity style="width:75%"></systementity>
     </div>
     <el-table :data="tableData" style="width: 100% ;   margin-bottom: 20px;">
         <el-table-column prop="nodeName" label="节点名称" />
@@ -68,6 +69,7 @@
         <el-table-column prop="propagationTime" label="propagation time" />
 
     </el-table>
+
 </div>
 </template>
 
@@ -75,6 +77,7 @@
 import {
     option
 } from 'runjs';
+import systementity from './systementity'
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 //例如：import 《组件名称》 from '《组件路径》';
 //fsdffsdfsdfsdfsdfsdfsdfds
@@ -82,7 +85,9 @@ let websocket;
 export default {
     name: 'app',
     //import引入的组件需要注入到对象中才能使用
-    components: {},
+    components: {
+        systementity
+    },
     data() {
         //这里存放数据
         return {
