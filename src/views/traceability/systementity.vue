@@ -1,7 +1,7 @@
 <!--  -->
 <template>
 <div class='myclass'>
-    <div id="main" style="width: 600px;height:400px;"></div>
+    <div id="mem" style="width: 600px;height:400px;"></div>
     <div id="bis" style="width: 600px;height:400px;"></div>
     <div id="cpu" style="width: 600px;height:400px;"></div>
     <div id="wwatchfilea" style="width: 900px;height:400px;"></div>
@@ -9,6 +9,13 @@
 </template>
 
 <script>
+import {
+    resetRouter
+} from '@/router';
+
+import {
+    selectbues
+} from "./systementityjs"
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 //例如：import 《组件名称》 from '《组件路径》';
 
@@ -21,7 +28,11 @@ export default {
             websock: null,
             systementity: null,
             gaugecpu: {
-
+                title: {
+                    text: 'CPU使用率',
+                    //subtext: '单位G',
+                    left: 'center '
+                },
                 series: [{
                     name: 'CPU使用率',
                     type: 'gauge',
@@ -35,7 +46,11 @@ export default {
                 }]
             },
             gaugemen: {
-
+                title: {
+                    text: '内存使用量',
+                    //subtext: '单位G',
+                    left: 'center '
+                },
                 series: [{
                     name: '内存使用',
                     type: 'gauge',
@@ -52,7 +67,7 @@ export default {
                 title: {
                     text: '硬盘使用量',
                     subtext: '单位G',
-                    left: 'left '
+                    left: 'center '
                 },
                 tooltip: {
                     trigger: 'item',
@@ -62,11 +77,11 @@ export default {
 
                     type: 'pie',
 
-                    center: ['40%', '50%'],
+                    center: ['50%', '50%'],
                     data: [],
                     emphasis: {
                         itemStyle: {
-                            shadowBlur: 10,
+                            shadowBlur: 9,
                             shadowOffsetX: 0,
                             shadowColor: 'rgba(0, 0, 0, 0.5)'
                         }
@@ -84,6 +99,7 @@ export default {
             data: [],
 
             watchoption: {
+
                 xAxis: {
                     type: 'category',
                     boundaryGap: false,
@@ -104,7 +120,8 @@ export default {
                     },
                     data: []
                 }]
-            }
+            },
+            //filedata: []
         };
     },
     //监听属性 类似于data概念
@@ -114,43 +131,74 @@ export default {
     //方法集合
     methods: {
         addData(data) {
-            this.now = new Date();
-            this.now = [this.now.getFullYear(), this.now.getMonth() + 1, this.now.getDate(), this.now.getHours(), this.now.getMinutes(), this.now.getSeconds()].join('/');
-            this.date.push(this.now)
-            console.log(this.date)
-            this.data.push(data.watchFile)
-            if (this.data.length > 10) {
-                this.date.shift()
-                this.data.shift()
-                this.watchfile.setOption({
-                    xAxis: {
-                        type: 'category',
-                        boundaryGap: false,
-                        data: this.date
-                    },
-                    yAxis: {
-                        boundaryGap: [0, '50%'],
-                        type: 'value'
-                    },
-                    series: [{
-                        name: '成交',
-                        type: 'line',
-                        smooth: true,
-                        symbol: 'none',
-                        stack: 'a',
-                        areaStyle: {
-                            normal: {}
-                        },
-                        data: this.data
-                    }]
-                });
-            }
-            this.now = new Date()
+            // this.now = new Date();
+            // this.now = [this.now.getFullYear(), this.now.getMonth() + 1, this.now.getDate(), this.now.getHours(), this.now.getMinutes(), this.now.getSeconds()].join('/');
+            // this.date.push(this.now)
+            // console.log(this.date)
+            // this.data.push(data.watchFile)
+            // if (this.data.length > 4) {
+            //     this.date.shift()
+            //     this.data.shift()
+            //     this.watchfile.setOption({
+            //         title: {
+            //             subtext: '单位G',
+            //             left: 'left'
+            //         },
+            //         xAxis: {
+            //             type: 'category',
+            //             boundaryGap: false,
+            //             data: this.date
+            //         },
+            //         yAxis: {
+            //             boundaryGap: [0, '50%'],
+            //             type: 'value'
+            //         },
+            //         series: [{
+            //             name: '成交',
+            //             type: 'line',
+            //             smooth: true,
+            //             symbol: 'none',
+            //             stack: 'a',
+            //             areaStyle: {
+            //                 normal: {}
+            //             },
+            //             data: this.data
+            //         }]
+            //     });
+            // }
+            // this.now = new Date()
+            let createTime = data.map(item => {
+                return item.createTime;
+            })
+            let fileSize = data.map(item => {
+                return item.fileSize
+            })
+            this.watchfile.setOption({
+                title: {
+                    text: 'besu文件',
+                    subtext: '单位M',
+                    left: 'left '
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                xAxis: {
+                    type: 'category',
+                    data: createTime
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [{
+                    data: fileSize,
+                    type: 'line'
+                }]
+            })
         },
 
         initgauge() {
 
-            this.myehartsgauge = this.$echarts.init(document.getElementById('main'))
+            this.myehartsgauge = this.$echarts.init(document.getElementById('mem'))
             console.log(this.myehartsgauge)
         },
         initcpu() {
@@ -161,7 +209,7 @@ export default {
             this.watchfile = this.$echarts.init(document.getElementById('wwatchfilea'))
         },
         initwebsockt() {
-            let wss = 'ws://127.0.0.1:8010/imserver/'
+            let wss = 'ws://125.64.98.21:8010/imserver/'
             this.websock = new WebSocket(wss)
             this.websock.onmessage = this.websocketonmessage;
             this.websock.onopen = this.websocketonopen;
@@ -177,7 +225,7 @@ export default {
                 this.memuse(data)
                 this.fileuse(data)
                 this.cpuuse(data)
-                this.addData(data)
+                //this.addData(data)
             })
 
         },
@@ -208,14 +256,22 @@ export default {
                 value: data.fileFree
             }]
             this.bisfileoption.series[0].data = pl
-            console.log(this.bisfileoption)
-            console.log(this.myechartsbis)
+
             this.myechartsbis.setOption(this.bisfileoption)
         },
         cpuuse(data) {
             this.gaugecpu.series[0].data[0].value = ((data.cpuuse) * 100).toFixed(2) - 0;
             this.myehartscpu.setOption(this.gaugecpu, true)
-        }
+        },
+        //获取数据
+        getlistdata() {
+            this.initwatchfile()
+            selectbues().then(res => {
+                if (res.success) {
+                    this.addData(res.data)
+                }
+            })
+        },
     }
 
     , //生命周期 - 创建完成（可以访问当前this实例）
@@ -227,7 +283,7 @@ export default {
         this.initgauge()
         this.initbis()
         this.initcpu()
-        this.initwatchfile()
+        this.getlistdata()
         let that = this
         setTimeout(function () {
 
