@@ -73,7 +73,7 @@
   <div>
     <el-form :inline="true" :model="tablePageReturnMoneyData" class="demo-form-inline">
       <el-form-item>
-        <el-input v-model="tablePageReturnMoneyData.chipId" placeholder="设备名称 | 钱包地址 | 设备token | 交易hash" style="width:340px;"></el-input>
+        <el-input v-model="tablePageReturnMoneyData.search" placeholder="设备名称 | 钱包地址 | 设备token | 交易hash" style="width:340px;"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">查询</el-button>
@@ -135,10 +135,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         total: 0,
-        chipId: '',
-        deviceWallet: '',
-        deviceToken: '',
-        hash: '',
+        search: '',
       },
       option: {
         title: {
@@ -354,6 +351,7 @@ export default {
       this.loading = true;
       searchTableMoneyData(this.tablePageReturnMoneyData).then(res => {
         if (res.success) {
+          console.log(res.data);
           this.tableMoneyData = res.data;
           this.tablePageReturnMoneyData.total = res.total;
         } else {
@@ -369,12 +367,19 @@ export default {
     },
     onSubmit() {
       console.log('submit!');
+      this.tablePageReturnMoneyData.pageSize = 10;
+      this.tablePageReturnMoneyData.pageNum = 1;
+      this.searchTableMoneyData();
     },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
+      this.tablePageReturnMoneyData.pageSize = val;
+      this.searchTableMoneyData();
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
+      this.tablePageReturnMoneyData.pageNum = val;
+      this.searchTableMoneyData();
     },
 
   },

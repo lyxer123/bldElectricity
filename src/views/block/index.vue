@@ -49,14 +49,8 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-pagination @size-change="handleSizeChange"
-                     @current-change="handleCurrentChange"
-                     :current-page="search.pageNum"
-                     :page-sizes="[10,20,50,100,200]"
-                     :page-size="search.pageSize"
-                     layout="total, sizes, prev, pager, next, jumper"
-                     :total="search.total">
-      </el-pagination>
+      <!--<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="search.pageNum" :page-sizes="[10,20,50,100,200]" :page-size="search.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="search.total">-->
+
     </el-main>
 
     <!--历史转账记录-->
@@ -177,8 +171,6 @@ export default {
     },
     history_transfer (row) {
       this.chipId = row.chipId;
-      this.search2.pageNum = 1;
-      this.search2.pageSize = 10;
       search_block_hash(row.chipId, this.search2.pageNum, this.search2.pageSize).then(res => {
         if (res.success) {
           this.show_table_data = res.data
@@ -191,21 +183,6 @@ export default {
           });
         }
       })
-    },
-    search_block_hash2 () {
-      search_block_hash(this.chipId, this.search2.pageNum, this.search2.pageSize).then(res => {
-        if (res.success) {
-          this.show_table_data = res.data
-          this.search2.total = res.total;
-          this.block_transfer_drawer = true;
-        } else {
-          this.$message({
-            type: 'info',
-            message: res.message
-          });
-        }
-      })
-
     },
     show_block_info (hash) {
       this.block_info_drawer = true;
@@ -295,16 +272,21 @@ export default {
       this.search_block();
     },
     handleCurrentChange (val) {
+      //alert("当前页变了");
       this.search.pageNum = val;
       this.search_block();
     },
     handleSizeChange2 (val) {
       this.search2.pageSize = val;
-      this.search_block_hash2();
+      let j = new Object();
+      j.chipId = this.chipId;
+      this.history_transfer(j);
     },
     handleCurrentChange2 (val) {
       this.search2.pageNum = val;
-      this.search_block_hash2();
+      let j1 = new Object();
+      j1.chipId = this.chipId;
+      this.history_transfer(j1);
     }
   },
   created () {
