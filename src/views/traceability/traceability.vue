@@ -312,10 +312,20 @@ export default {
             this.tableData[0].propagationTime = domData.data.block.propagation + " ms";
           } else if (domData.action === "charts") {
             this.$nextTick(() => {
-              this.tableData[0].lastBlockMiners1 = domData.data.miners[0].miner;
-              this.tableData[0].lastBlockMiners2 = domData.data.miners[1].miner;
-              this.tableData[0].avgBlocktime = domData.data.avgBlocktime.toFixed(2) + "s";
-              this.tableData[0].avgHashrate = domData.data.avgHashrate.toFixed(1) + "H/s";
+              if (domData.data.miners.length === 1) {
+                this.tableData[0].lastBlockMiners1 = domData.data.miners[0].miner;
+              }
+              if (domData.data.miners.length > 1) {
+                this.tableData[0].lastBlockMiners2 = domData.data.miners[1].miner;
+              }
+              if (domData.data.avgBlocktime != "" && domData.data.avgBlocktime != null) {
+                this.tableData[0].avgBlocktime = domData.data.avgBlocktime.toFixed(2) + "s";
+              }
+              console.log(domData.data.avgHashrate);
+              if (domData.data.avgHashrate != "" && domData.data.avgHashrate != null) {
+                this.tableData[0].avgHashrate = domData.data.avgHashrate.toFixed(1) + "H/s";
+              }
+
               this.option.xAxis[0].data = domData.data.blocktime;
               this.option.series[0].data = domData.data.blocktime;
 
@@ -351,7 +361,7 @@ export default {
       this.loading = true;
       searchTableMoneyData(this.tablePageReturnMoneyData).then(res => {
         if (res.success) {
-          console.log(res.data);
+          //console.log(res.data);
           this.tableMoneyData = res.data;
           this.tablePageReturnMoneyData.total = res.total;
         } else {
