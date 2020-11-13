@@ -7,3 +7,10 @@ export function searchTableData (pageNum, pageSize) {
     method: 'get'
   })
 }
+
+export function deleteOperation (ids) {
+  return request({
+    url: prefix + 'deleteOperation.json?ids=' + ids,
+    method: 'post'
+  })
+}
