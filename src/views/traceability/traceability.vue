@@ -316,12 +316,12 @@ export default {
                 this.tableData[0].lastBlockMiners1 = domData.data.miners[0].miner;
               }
               if (domData.data.miners.length > 1) {
+                this.tableData[0].lastBlockMiners1 = domData.data.miners[0].miner;
                 this.tableData[0].lastBlockMiners2 = domData.data.miners[1].miner;
               }
               if (domData.data.avgBlocktime != "" && domData.data.avgBlocktime != null) {
                 this.tableData[0].avgBlocktime = domData.data.avgBlocktime.toFixed(2) + "s";
               }
-              console.log(domData.data.avgHashrate);
               if (domData.data.avgHashrate != "" && domData.data.avgHashrate != null) {
                 this.tableData[0].avgHashrate = domData.data.avgHashrate.toFixed(1) + "H/s";
               }

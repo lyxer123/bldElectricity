@@ -51,7 +51,7 @@ export const constantRoutes = [
       path: 'home',
       name: '总体概览',
       component: () => import('@/views/home/index'),
-      meta: {title: '总体概览', icon: 'home'}
+      meta: { title: '总体概览', icon: 'home' }
     }]
   },
 
@@ -63,7 +63,7 @@ export const constantRoutes = [
         path: 'index',
         name: '客户管理',
         component: () => import('@/views/client/index'),
-        meta: {title: '客户管理', icon: 'client'}
+        meta: { title: '客户管理', icon: 'client' }
       }
     ]
   },
@@ -75,7 +75,7 @@ export const constantRoutes = [
         path: 'index',
         name: '资产管理',
         component: () => import('@/views/asset/index'),
-        meta: {title: '资产管理', icon: 'asset'}
+        meta: { title: '资产管理', icon: 'asset' }
       }
     ]
   },
@@ -87,7 +87,7 @@ export const constantRoutes = [
         path: 'index',
         name: '设备管理',
         component: () => import('@/views/device/index'),
-        meta: {title: '设备管理', icon: 'device'}
+        meta: { title: '设备管理', icon: 'device' }
       }
     ]
   },
@@ -99,7 +99,7 @@ export const constantRoutes = [
         path: 'index',
         name: '钱包管理',
         component: () => import('@/views/block/index'),
-        meta: {title: '钱包管理', icon: 'blockHeight'}
+        meta: { title: '钱包管理', icon: 'blockHeight' }
       }
     ]
   },
@@ -111,7 +111,7 @@ export const constantRoutes = [
         path: 'index',
         name: '位置管理',
         component: () => import('@/views/map/index'),
-        meta: {title: '位置管理', icon: 'map'}
+        meta: { title: '位置管理', icon: 'map' }
       }
     ]
   },
@@ -134,7 +134,7 @@ export const constantRoutes = [
         path: 'index',
         name: '租户管理',
         component: () => import('@/views/tenant/index'),
-        meta: {title: '租户管理', icon: 'tenant'}
+        meta: { title: '租户管理', icon: 'tenant' }
       }
     ]
   },
@@ -169,7 +169,7 @@ export const constantRoutes = [
         path: 'index',
         name: '电桩维护',
         component: () => import('@/views/maintain/index'),
-        meta: {title: '电桩维护', icon: 'maintain'}
+        meta: { title: '电桩维护', icon: 'maintain' }
       }
     ]
   },
@@ -181,7 +181,7 @@ export const constantRoutes = [
         path: 'index',
         name: '资费维护',
         component: () => import('@/views/price/index'),
-        meta: {title: '资费维护', icon: 'price'}
+        meta: { title: '资费维护', icon: 'price' }
       }
     ]
   },
@@ -217,7 +217,7 @@ export const constantRoutes = [
         path: 'transfer',
         name: '资金归集',
         component: () => import('@/views/transfer/transfer'),
-        meta: {title: '资金归集', icon: 'collect'}
+        meta: { title: '资金归集', icon: 'collect' }
       }
     ]
   },
@@ -229,11 +229,22 @@ export const constantRoutes = [
         path: 'traceability',
         name: '资源管理',
         component: () => import('@/views/traceability/traceability'),
-        meta: {title: '资源管理', icon: 'traceability'}
+        meta: { title: '资源管理', icon: 'traceability' }
+      }
+    ]
+  }, {
+    path: '/orderCharge',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: '分段电价表',
+        component: () => import('@/views/basics_sectional_tariff/index'),
+        meta: { title: '分段电价表', icon: 'el-icon-s-management' }
       }
     ]
   },
- 
+
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
@@ -248,7 +259,7 @@ const createRouter = () => new Router({
 const router = createRouter()
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
-export function resetRouter() {
+export function resetRouter () {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router
 }
